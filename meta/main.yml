@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  author: Nick Jaffe
+  description: Adds R1Soft CDP Agent to chksrvd supervision on WHM hosts
+  company: Serversaurus
+  license: MIT
+  min_ansible_version: 1.2
+  platforms:
+  - name: EL
+    versions:
+    - 5
+    - 6
+  categories:
+  - monitoring
+  - system
+dependencies: []

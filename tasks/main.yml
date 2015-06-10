@@ -1,0 +1,19 @@
+---
+# tasks file for whm-chksrvd-cdp
+
+- name: Check to see if /etc/init.d/cdp-agent exists
+  stat: path=/etc/init.d/cdp-agent
+  register: cdp_exists
+
+- name: Copy cdp-agent to /etc/chkserv.d
+  copy: src=cdp-agent dest=/etc/chkserv.d/cdp-agent owner=root mode=0644
+  when: cdp_exists.stat.exists == true
+
+- name: Enable cdp-agent in /etc/chkserv.d/chkservd.conf
+  lineinfile: dest=/etc/chkserv.d/chkservd.conf regexp='^cdp-agent:' line='cdp-agent:1'
+  when: cdp_exists.stat.exists == true
+  register: cdp_enabled
+
+- name: Restart cksrvd
+  command: /scripts/restartsrv_chkservd
+  when: cdp_enabled.changed
